@@ -1,12 +1,13 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-const Login = props => {
+const Login = ({loginn}) => {
 
   const initialUserState = {
     name: "",
     id: "",
   };
-
+  const history = useNavigate();
   const [user, setUser] = useState(initialUserState);
 
   const handleInputChange = event => {
@@ -15,8 +16,8 @@ const Login = props => {
   };
 
   const login = () => {
-    props.login(user)
-    props.history.push('/');
+    loginn(user)
+    history('/');
   }
 
   return (

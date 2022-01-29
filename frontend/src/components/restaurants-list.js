@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import RestaurantDataService from "../services/restaurant";
 import { Link } from "react-router-dom";
 
-const RestaurantsList = props => {
+const RestaurantsList = () => {
   const [restaurants, setRestaurants] = useState([]);
   const [searchName, setSearchName ] = useState("");
   const [searchZip, setSearchZip ] = useState("");

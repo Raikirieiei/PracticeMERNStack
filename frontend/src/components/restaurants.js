@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import RestaurantDataService from "../services/restaurant";
 import { Link, useParams } from "react-router-dom";
 
-const Restaurant = props => {
+const Restaurant = ({user}) => {
   const initialRestaurantState = {
     id: null,
     name: "",
@@ -27,10 +27,10 @@ const Restaurant = props => {
   useEffect(() => {
     getRestaurant(id);
     console.log(restaurant)
-  });
+  },[id]);
 
   const deleteReview = (reviewId, index) => {
-    RestaurantDataService.deleteReview(reviewId, props.user.id)
+    RestaurantDataService.deleteReview(reviewId, user.id)
       .then(response => {
         setRestaurant((prevState) => {
           prevState.reviews.splice(index, 1)
@@ -52,7 +52,7 @@ const Restaurant = props => {
           <h5>{restaurant.name}</h5>
           <p>
             <strong>Cuisine: </strong>{restaurant.cuisine}<br/>
-            {/* <strong>Address: </strong>{restaurant.address.building} {restaurant.address.street}, {restaurant.address.zipcode} */}
+            <strong>Address: </strong>{restaurant.address.building} {restaurant.address.street}, {restaurant.address.zipcode}
       
           </p>
           <Link to={"/restaurants/" + id + "/review"} className="btn btn-primary">
@@ -60,7 +60,7 @@ const Restaurant = props => {
           </Link>
           <h4> Reviews </h4>
           <div className="row">
-            {/* {restaurant.reviews.length > 0 ? (
+            {restaurant.reviews.length > 0 ? (
              restaurant.reviews.map((review, index) => {
                return (
                  <div className="col-lg-4 pb-1" key={index}>
@@ -71,15 +71,12 @@ const Restaurant = props => {
                          <strong>User: </strong>{review.name}<br/>
                          <strong>Date: </strong>{review.date}
                        </p>
-                       {props.user && props.user.id === review.user_id &&
+                       {user && user.id === review.user_id &&
                           <div className="row">
                             <a onClick={() => deleteReview(review._id, index)} className="btn btn-primary col-lg-5 mx-1 mb-1">Delete</a>
                             <Link to={{
-                              pathname: "/restaurants/" + props.match.params.id + "/review",
-                              state: {
-                                currentReview: review
-                              }
-                            }} className="btn btn-primary col-lg-5 mx-1 mb-1">Edit</Link>
+                              pathname: "/restaurants/" + id + "/review"
+                            }} state={{currentReview: review}}className="btn btn-primary col-lg-5 mx-1 mb-1">Edit</Link>
                           </div>                   
                        }
                      </div>
@@ -91,7 +88,7 @@ const Restaurant = props => {
             <div className="col-sm-4">
               <p>No reviews yet.</p>
             </div>
-            )} */}
+            )}
 
           </div>
 
@@ -102,7 +99,6 @@ const Restaurant = props => {
           <p>No restaurant selected.</p>
         </div>
       )}
-      {/* ERROR */}
     </div>
   );
 };
